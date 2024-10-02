@@ -1,0 +1,39 @@
+<%= turbo_stream_from project %>
+
+<div id="<%= dom_id(project) %>">
+  <h1><strong>Project</strong>: <%= project.name %></h1>
+
+  <p>
+    <strong>Description</strong>: <%= project.description %>
+  </p>
+
+  <div>
+<h5><strong>Status</strong>: <%= project.status.capitalize %></h5>
+
+<% if local_assigns[:is_owner] && local_assigns[:available_transition_events].size > 0 %>
+  <div class="d-flex flex-row">
+    <% local_assigns[:available_transition_events].each do |transition_event| %>
+      <div class="p-2">
+        <% button_class = case transition_event
+                         when :suspend
+                           'btn btn-warning'
+                         when :start, :complete
+                           'btn btn-success'
+                         when :cancel
+                           'btn btn-danger'
+                         else
+                           'btn btn-outline-primary'
+                         end
+        %>
+
+        <%= button_to transition_event.capitalize,
+                      status_transition_project_path(project, params: {event: transition_event}),
+                      method: :patch, class: button_class %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+
+  </div>
+</div>

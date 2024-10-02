@@ -1,0 +1,31 @@
+<%= turbo_frame_tag "project_history_item_form" do %>
+  <%= form_with model: project_history_item, 
+                url: create_user_comment_project_project_history_items_path(@project), 
+                method: :post, 
+                local: true do |form| %>
+    
+    <% if project_history_item.errors.any? %>
+      <div id="error_explanation">
+        <h5><%= pluralize(project_history_item.errors.count, "error") %> prohibited this comment from being saved:</h5>
+        <ul>
+          <% project_history_item.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+<div class="row">
+  <!-- Comment Text Field -->
+  <div class="col-md-6">
+    <%= form.text_area :content, class: 'form-control p-3', required: true %>
+  </div>
+    
+  <!-- Submit Button -->
+  <div class="col-md-2 d-flex align-items-start">
+    <%= form.submit 'Add Comment', class: "btn btn-success" %>
+  </div>
+</div>
+
+  <% end %>
+<% end %>
